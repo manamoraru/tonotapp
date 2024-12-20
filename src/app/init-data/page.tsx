@@ -3,7 +3,6 @@
 import { useMemo } from 'react';
 import { useSignal, initData, type User } from '@telegram-apps/sdk-react';
 import { List, Placeholder } from '@telegram-apps/telegram-ui';
-import Image from 'next/image';
 
 import {
   DisplayData,
@@ -91,7 +90,7 @@ export default function InitDataPage() {
       { title: 'username', value: username },
       { title: 'photo_url', value: photoUrl },
     ];
-  }, [initDataState?.chat]);
+  }, [initDataState]); // Исправлено: добавлен initDataState как зависимость
 
   if (!initDataRows) {
     return (
@@ -100,12 +99,10 @@ export default function InitDataPage() {
           header="Oops"
           description="Application was launched with missing init data"
         >
-          <Image
-            alt="Telegram sticker"
+          <img
+            alt="Telegram sticker showing an error"
             src="https://xelene.me/telegram.gif"
-            width={144}
-            height={144}
-            style={{ display: 'block' }}
+            style={{ display: 'block', width: '144px', height: '144px' }}
           />
         </Placeholder>
       </Page>
@@ -114,10 +111,10 @@ export default function InitDataPage() {
   return (
     <Page>
       <List>
-        <DisplayData header={'Init Data'} rows={initDataRows} />
-        {userRows && <DisplayData header={'User'} rows={userRows} />}
-        {receiverRows && <DisplayData header={'Receiver'} rows={receiverRows} />}
-        {chatRows && <DisplayData header={'Chat'} rows={chatRows} />}
+        <DisplayData header={'Init Data'} rows={initDataRows}/>
+        {userRows && <DisplayData header={'User'} rows={userRows}/>}
+        {receiverRows && <DisplayData header={'Receiver'} rows={receiverRows}/>}
+        {chatRows && <DisplayData header={'Chat'} rows={chatRows}/>}
       </List>
     </Page>
   );
