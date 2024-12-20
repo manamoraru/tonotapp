@@ -1,9 +1,9 @@
 import {
-  isTMA,
   LaunchParams,
   mockTelegramEnv,
   parseInitData,
   retrieveLaunchParams,
+  isTMA,
 } from '@telegram-apps/sdk-react';
 
 export function useTelegramMock(): void {
@@ -14,6 +14,13 @@ export function useTelegramMock(): void {
   let lp: LaunchParams | undefined;
   try {
     lp = retrieveLaunchParams();
+    if (!lp || !lp.platform) {
+      console.warn('Platform data is missing. Using default values for development.');
+      lp = {
+        ...lp,
+        platform: 'unknown', // Укажите подходящее значение для платформы
+      };
+    }
   } catch (e) {
     console.error('Error retrieving launch params:', e);
     try {
@@ -57,7 +64,7 @@ export function useTelegramMock(): void {
         initData: parseInitData(initDataRaw),
         initDataRaw,
         version: '8',
-        platform: 'tdesktop',
+        platform: 'tdesktop', // Здесь укажите значение платформы
       };
     } catch (parseError) {
       console.error('Error parsing initDataRaw:', parseError);
